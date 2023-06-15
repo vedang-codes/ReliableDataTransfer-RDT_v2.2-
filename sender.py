@@ -6,16 +6,15 @@ class SenderProcess:
     @staticmethod
     def set_outgoing_data(buffer):
         """ To set the message the process would send out over the network
-        :param buffer:  a python list of characters represent the outgoing message
+        : param buffer:  a Python list of characters representing the outgoing message
         :return: no return value
         """
         SenderProcess.__buffer = buffer
-        return
 
     @staticmethod
     def get_outgoing_data():
         """ To get the message the process would send out over the network
-        :return:  a python list of characters represent the outgoing message
+        :return:  a Python list of characters representing the outgoing message
         """
         return SenderProcess.__buffer
 
@@ -25,8 +24,8 @@ class RDTSender:
 
     def __init__(self, net_srv):
         """ This is a class constructor
-            It initialize the RDT sender sequence number  to '0' and the network layer services
-            The network layer service provide the method udt_send(send_pkt)
+            It initializes the RDT sender sequence number  to '0' and the network layer services
+            The network layer service provides the method udt_send(send_pkt)
         """
         self.sequence = '0'
         self.net_srv = net_srv
@@ -34,18 +33,16 @@ class RDTSender:
     @staticmethod
     def get_checksum(data):
         """ Calculate the checksum for outgoing data
-        :param data: one and only one character, for example data = 'A'
-        :return: the ASCII code of the character, for example ASCII('A') = 65
+        : param data: one and only one character, for example, data = 'A'
+        :return: the ASCII code of the character, for example, ASCII('A') = 65
         """
-        # TODO provide your own implementation
-        checksum = None  # you need to change that
-        return checksum
+        return ord(data)  # Calculate the ASCII value of the character 'data'
 
     @staticmethod
     def clone_packet(packet):
         """ Make a copy of the outgoing packet
-        :param packet: a python dictionary represent a packet
-        :return: return a packet as python dictionary
+        : param packet: a Python dictionary represent a packet
+        :return: return a packet as Python dictionary
         """
         pkt_clone = {
             'sequence_number': packet['sequence_number'],
@@ -60,8 +57,7 @@ class RDTSender:
         :param reply: a python dictionary represent a reply sent by the receiver
         :return: True -> if the reply is corrupted | False ->  if the reply is NOT corrupted
         """
-        # TODO provide your own implementation
-        pass
+        return reply['checksum'] != RDTSender.get_checksum(reply['data'])
 
     @staticmethod
     def is_expected_seq(reply, exp_seq):
@@ -70,8 +66,7 @@ class RDTSender:
         :param exp_seq: the sender expected sequence number '0' or '1' represented as a character
         :return: True -> if ack in the reply match the   expected sequence number otherwise False
         """
-        # TODO provide your own implementation
-        pass
+        return reply['ack'] == exp_seq
 
     @staticmethod
     def make_pkt(seq, data, checksum):
